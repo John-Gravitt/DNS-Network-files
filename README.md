@@ -11,7 +11,6 @@ This project documents my lab practice for the CourseCareers IT Professional cer
 - Microsoft Azure (Virtual Machines)
 - Remote Desktop
 - Active Directory Domain Services
-- PowerShell
 
 <h2>Operating Systems Used </h2>
 
@@ -20,97 +19,141 @@ This project documents my lab practice for the CourseCareers IT Professional cer
 
 <h2>High-Level Deployment and Configuration Steps</h2>
 
-- Create a resource group within Azure subscription including two virtual machines, one VM running Windows Server 2022 and the other Windows 10.
-- Install Active Directory on the Windows Server and promote to a domain controller.
-- Create organizational units, admin accounts and user accounts.
-- Join the Windows 10 virtual machine to the domain and enable user access.
+- Inspect and create DNS A-records from the domain controller and observe on a client machine
+- Observe changes when deleting records from the server and clearing the DNS cache 
+- Create files with permissions on the server
+- Grant access to files for various user types
 
 <h2>Deployment and Configuration Steps</h2>
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/6d7d9595-524d-43ca-a825-e3608d0bfd9a" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/ccefcf86-6ec0-4775-a46a-806b1221ffa3" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Create two virtual machines in Microsoft Azure. Setup one VM to be the domain controller (DC-1) and the other VM to be a domain user (Client-1). DC-1 should be imaged as a Windows Server 2022 and Client-1 should be imaged as a Windows 10 OS. Ensure that DC-1 and Client-1 are using the same virtual network. 
-</p>
-<br />
-
-<p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/ea36dd19-3a7d-45ec-8c37-cae85fe5f341" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Change the domain controller’s NIC Private IP address from dynamic to static. This will be essential later on when changing the DNS server of Client-1 to the domain controller. 
+Use the virtual machines created in the previous lab, DC-1 and Client-1, to complete this project. Log into both VMs with the admin account that was created. 
 </p>
 <br />
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/a45dabdf-bf1e-4ddf-af05-c0c31f627f06" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/cad6857c-34e8-4c7d-9652-bc22a055514f" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Login to Client-1 with Remote Desktop and ping DC-1’s private IP address with perpetual ping. Notice that the ping fails. 
-</p>
-<br />
-
-<p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/083f1b85-6a97-45f6-ba73-a587a3c7b468" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Login to DC-1 with Remote Desktop and open Windows Defender Firewall with advanced security. Enable the ICMPv4 echo request in the local Windows firewall. Observe that the ping request from Client-1 succeeded.
+From Client-1, ping and nslookup “mainframe” and notice that it fails.
 </p>
 <br />
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/8927c558-a086-485f-af9e-da2ecce8f8ad" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/1797bb39-fa58-46aa-9bd9-36bb8113b098" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-In DC-1, open Server Manager to install Active Directory. Click add roles and features to begin installation and follow the steps. After installation, promote the server as a domain controller.
-</p>
-<br />
-
-<p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/b96866af-c1a8-4eff-9bb6-72211573a30d" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Under tools, search for Active Directory Users and Computers then set up a new forest as mydomain.com and set a password. The server will then need to be reset.
+Create a DNS record for “mainframe” on DC-1 using a made up IP address. 
 </p>
 <br />
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/4eec3ed5-42fc-4e81-a208-d1d53e7c2a3b" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/4f3443fb-fd9f-4898-bf8e-9b50b7f36283" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-In DC-1, open Active Directory Users and Computers. Then create two new organizational units and a new admin account. Logout of server and rejoin as the new admin account. 
-</p>
-<br />
-
-<p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/5ccf105a-63c9-4ec8-8a03-7ad85db7bf70" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-From the Azure Portal, set Client-1’s DNS settings to the DC’s Private IP address and restart Client-1. 
+Go back to Client-1 and notice that “mainframe” is able to be pinged and in nslookup.
 </p>
 <br />
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/feec8ac7-6a95-4390-9030-a5c1a78dffbe" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/46756fc9-8876-48e7-bb42-be8ca3ed04d4" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Login to Client-1 and join it to the domain. Then restart the VM. Add domain users to romote desktop.
-</p>
-<br />
-
-<p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/cc430c05-7f98-48f3-9c45-9c16bbfbf283" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-In DC-1, open PowerShell ISE as an administrator. Create a new file and use a downloaded script to generate thousands of user accounts on the domain. Observe that the new user accounts are now in Active Directory.
+Navigate to DC-1 and change mainframe’s record address to 8.8.8.8
 </p>
 <br />
 
 <p>
-<img src="https://github.com/John-Gravitt/configure-ad/assets/152338722/9723dff2-7add-4588-9b1b-966edf0dcc78" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/7c54c1e0-975c-43bf-84d7-689ffc588b9e" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Attempt to log into Client-1 with one of the generated user accounts. Clean up the lab by deleting the resource groups or proceed to the next lab.
+Go back to Client-1 and ping “mainframe” again. Observe that it still pings the old address. Observe the local dns cache. (ipconfig /displaydns) Flush the DNS cache. (ipconfig /flushdns) In Client-1, ping “mainframe” again. Observe the address of the new record is showing up.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/2f524064-33a9-40d3-a6eb-a5f7f937c7d6" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Go back to DC-1 and create a CNAME record that points the host “search” to “www.google.com”.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/7f040ec3-bb1e-4dee-8314-fb2c464a7c24" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Go back to Client-1 and attempt to ping “search”, observe the results of the CNAME record.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/702d4ffe-3ce4-465e-ac0e-db91da9c232c" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Navigate to DC-1 and locate the C:\ drive. Create 4 folders: “read-access”, “write-access”, “no-access”, “accounting”. Set the following permissions (share the folder) for the “Domain Users” group:
+Folder: “read-access”, Group: “Domain Users”, Permission: “Read”
+Folder: “write-access”,  Group: “Domain Users”, Permissions: “Read/Write”
+Folder: “no-access”, Group: “Domain Admins”, “Permissions: “Read/Write”
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/f230e839-3431-4816-ac27-27b7068e39a9" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Login to Client-1 as <someuser> in the active directory and locate the file path via \\dc-1. Observe the folders that were created and the user’s access to each.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/1b736434-9de6-4bed-a087-319d1e9de805" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Go back to DC-1, in Active Directory, create a security group called “ACCOUNTANTS”.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/ea9b5bcf-b93e-4a4a-86a6-fc9546e469c0" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+On the “accounting” folder created earlier, set the following permissions:
+Folder: “accounting”, Group: “ACCOUNTANTS”, Permissions: “Read/Write”
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/d7b2882a-f704-4385-b14d-9d11f658908e" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+On Client-1, as  <someuser>, try to access the accountants folder. It should fail. Log out of Client-1.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/54b570f8-c388-4c2d-b7a4-e7a74f58b70a" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+On DC-1, make <someuser> a member of the “ACCOUNTANTS”  Security Group.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/eeac08ec-e761-47df-a8a5-4ba48a4441b3" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Sign back into Client-1 as <someuser> and try to access the “accounting”. Observe that the user has access to the folder now.
+</p>
+<br />
+
+<p>
+<img src="https://github.com/John-Gravitt/DNS-Network-files/assets/152338722/0f7c3331-875b-48bd-8847-15b35f4d4785" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Clean up the lab by deleting the resource groups.
 </p>
 <br />
