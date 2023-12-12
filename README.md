@@ -2,8 +2,8 @@
 <img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo"/>
 </p>
 
-<h1>On-premises Active Directory Deployed in the Cloud (Part-1)</h1>
-This project documents my lab practice for my CourseCareers IT Professional certification course covering the implementation of on-premises Active Directory within Azure Virtual Machines.<br />
+<h1>DNS and Network File Sharing Using Active Directory within Azure VMs (Part-2)</h1>
+This project documents my lab practice for the CourseCareers IT Professional certification course covering the utilization of Active Directory for DNS and file sharing and permissions.<br />
 
 
 <h2>Environments and Technologies Used</h2>
